@@ -1,6 +1,6 @@
 import { Component, OnInit, VERSION } from "@angular/core";
 import { Observable, Subscription } from "rxjs";
-import { map } from "rxjs/operators";
+import { map, filter } from "rxjs/operators";
 
 @Component({
   selector: "my-app",
@@ -19,7 +19,7 @@ export class AppComponent implements OnInit {
       setInterval(() => {
         observer.next(count);
 
-        if (count === 2) {
+        if (count === 5) {
           observer.complete();
         }
         if (count > 3) {
@@ -31,6 +31,9 @@ export class AppComponent implements OnInit {
 
     this.firstObsSubscription = customObservable
       .pipe(
+        filter((data: number) => {
+          return data > 0;
+        }),
         map((data: number) => {
           return "Round: " + (data + 1);
         })
